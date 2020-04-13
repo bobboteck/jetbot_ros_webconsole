@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+ This file is part of the jetbot_ros_webconsole package (https://github.com/bobboteck/jetbot_ros_webconsole).
+ Copyright (c) 2020 Roberto D'Amico.
+-->
+<package format="2">
+  <name>jetbot_ros_webconsole</name>
+  <version>1.0.0</version>
+  <description>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot.</description>
+  <author>Roberto D'Amico</author>
+  <maintainer email="roberto.damico@officinerobotiche.it">Roberto D'Amico</maintainer>
+  <license>MIT</license>
+  <url>https://github.com/bobboteck/jetbot_ros_webconsole</url>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roslaunch</depend>
+  <exec_depend>roswww</exec_depend>
+  <exec_depend>rosbridge_server</exec_depend>
+
+</package>

@@ -1,0 +1,27 @@
+<!--
+ This file is part of the jetbot_ros_webconsole package (https://github.com/bobboteck/jetbot_ros_webconsole).
+ Copyright (c) 2020 Roberto D'Amico.
+-->
+<launch>
+    <!-- Port used for the websocket -->
+    <arg name="websocket_port" default="9090"/>
+    <!-- Port used for the webserver -->
+    <arg name="packages_port" default="8080"/>
+
+    <!-- ROSbridge server -->
+    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+        <arg name="port" value="$(arg websocket_port)"/>
+    </include>
+    <!-- ROSWWW server -->
+    <!-- When the server start the webpage will be available in:
+         http://<address>:8001/jetbot_ros_webconsole -->
+    <include file="$(find roswww)/launch/roswww.launch">
+        <arg name="port" value="$(arg packages_port)" />
+        <!--
+            Path within each installed ROS package to serve.
+            Recommended to use the package root,
+            so resources like meshes are properly served
+        -->
+        <arg name="webpath" value="/" />
+    </include>
+</launch>

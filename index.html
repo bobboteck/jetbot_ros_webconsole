@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+        <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+        <script type="text/javascript">
+
+let connectionError = false;
+// Initialize ROS Lib JS
+let ros = new ROSLIB.Ros();
+
+// If there is an error on the backend, an 'error' emit will be emitted.
+ros.on('error', function(error) 
+{
+    connectionError = true;
+    console.log(error);
+
+    let lblConnectionStatus = document.getElementById("ConnectionStatus");
+    lblConnectionStatus.innerText = "Error in the backend!";
+    lblConnectionStatus.style.color = "#FF0000";
+});
+
+// Find out exactly when we made a connection.
+ros.on('connection', function() 
+{
+    console.log('Connected ...');
+
+    let lblConnectionStatus = document.getElementById("ConnectionStatus");
+    lblConnectionStatus.innerText = "Connected";
+    lblConnectionStatus.style.color = "#00D600";
+
+    ros.getParams(function(params) {
+        console.log(params);
+    });
+
+    var rosVersion = new ROSLIB.Param({
+        ros : ros,
+        name : 'rosversion'
+    });
+
+    rosVersion.get(function(value) {
+        console.log('Version: ' + value);
+    });
+});
+
+ros.on('close', function() 
+{
+    console.log('Connection closed.');
+
+    if(!connectionError)
+    {
+        let lblConnectionStatus = document.getElementById("ConnectionStatus");
+        lblConnectionStatus.innerText = "Connection closed.";
+        lblConnectionStatus.style.color = "#A0A0A0";
+    }
+});
+
+function Connection()
+{
+    document.getElementById("ConnectionStatus").innerText = "Connecting to rosbridge...";
+    let wsAddress = document.getElementById("WebSocketAddress").value;
+    // Create a connection to the rosbridge WebSocket server.
+    ros.connect(wsAddress);
+}
+        </script>
+    </head>
+
+    <body>
+        <h1>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot</h1>
+
+        <p>For use this page, power on the Robot and run the following commands, each in new terminal. After click on Connect button.</p>
+
+        <ol>
+            <li><tt>roscore</tt></li>
+            <li><tt>roslaunch jetbot_ros_webconsole jetbot_ros_webconsole.launch</tt></li>
+        </ol>
+
+        <div>
+            <label>Connenction to:</label>
+            <input type="text" id="WebSocketAddress" value="ws://bbnanone.lan:9090" />
+            <input type="button" id="ConnectWebSocket" value="Connect" onclick="Connection()" />
+            <label>Current status:</label>
+            <label id="ConnectionStatus" style="font-weight: bold;">Not connected.</label>
+        </div>
+    </body>
+</html>
