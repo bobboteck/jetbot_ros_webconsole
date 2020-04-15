@@ -78,7 +78,7 @@ function Connection()
 
         <div>
             <label>Connenction to:</label>
-            <input type="text" id="WebSocketAddress" value="ws://bbnanone.lan:9090" />
+            <input type="text" id="WebSocketAddress" value="ws://bbnanone.lan:9090" /><!-- try to auto evaluate with window.location.hostname -->
             <input type="button" id="ConnectWebSocket" value="Connect" onclick="Connection()" />
             <label>Current status:</label>
             <label id="ConnectionStatus" style="font-weight: bold;">Not connected.</label>
