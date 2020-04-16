@@ -6,7 +6,7 @@ If is the first time you use this repo, execute all the following command, other
 Poweron the Jetbot, and connect to in via SSH, execute the following command to install the ROS dependencies to use this package:
 
 ```shell
-sudo apt-get install ros-melodic-roswww ros-melodic-rosbridge
+sudo apt-get install ros-melodic-roswww ros-melodic-rosbridge-server
 ```
 
 Go in the Source folder of your workspace and clone this repository:
