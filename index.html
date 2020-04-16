@@ -91,10 +91,18 @@ function Connection()
     // Create a connection to the rosbridge WebSocket server.
     ros.connect(wsAddress);
 }
+
+function CostructWebSocketUrl()
+{
+	//ws://bbnanone.lan:9090
+	var url = "ws://" + window.location.hostname + ":9090";
+	document.getElementById("WebSocketAddress").value = url;
+	console.log(url);
+}
         </script>
     </head>
 
-    <body>
+    <body onload="CostructWebSocketUrl()">
         <h1>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot</h1>
 
         <p>For use this page, power on the Robot and run the following commands, each in new terminal. After click on Connect button.</p>
@@ -106,7 +114,7 @@ function Connection()
 
         <div>
             <label>Connenction to:</label>
-            <input type="text" id="WebSocketAddress" value="ws://bbnanone.lan:9090" /><!-- try to auto evaluate with window.location.hostname -->
+            <input type="text" id="WebSocketAddress" value="" /><!-- try to auto evaluate with window.location.hostname -->
             <input type="button" id="ConnectWebSocket" value="Connect" onclick="Connection()" />
             <label>Current status:</label>
             <label id="ConnectionStatus" style="font-weight: bold;">Not connected.</label>
