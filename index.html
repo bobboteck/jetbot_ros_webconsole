@@ -25,99 +25,97 @@
 -->
 <html>
     <head>
+		<title>JetBot Web Console ROS based</title>
 		<meta charset="utf-8" />
 		<meta name="description" content="NVIDIA JetBot ROS Web Console">
 		<meta name="author" content="Roberto D'Amico">
-		<link rel="shortcut icon" type="image/png" href="jetbot_ros_webconsole/favicon.ico">
+		<link rel="shortcut icon" type="image/png" href="favicon.ico">
+
+		<link rel="stylesheet" href="assets/css/style.css" />
 
         <script type="text/javascript" src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-        <script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
-        <script type="text/javascript">
-
-let connectionError = false;
-// Initialize ROS Lib JS
-let ros = new ROSLIB.Ros();
-
-// If there is an error on the backend, an 'error' emit will be emitted.
-ros.on('error', function(error) 
-{
-    connectionError = true;
-    console.log(error);
-
-    let lblConnectionStatus = document.getElementById("ConnectionStatus");
-    lblConnectionStatus.innerText = "Error in the backend!";
-    lblConnectionStatus.style.color = "#FF0000";
-});
-
-// Find out exactly when we made a connection.
-ros.on('connection', function() 
-{
-    console.log('Connected ...');
-
-    let lblConnectionStatus = document.getElementById("ConnectionStatus");
-    lblConnectionStatus.innerText = "Connected";
-    lblConnectionStatus.style.color = "#00D600";
-
-    ros.getParams(function(params) {
-        console.log(params);
-    });
-
-    var rosVersion = new ROSLIB.Param({
-        ros : ros,
-        name : 'rosversion'
-    });
-
-    rosVersion.get(function(value) {
-        console.log('Version: ' + value);
-    });
-});
-
-ros.on('close', function() 
-{
-    console.log('Connection closed.');
-
-    if(!connectionError)
-    {
-        let lblConnectionStatus = document.getElementById("ConnectionStatus");
-        lblConnectionStatus.innerText = "Connection closed.";
-        lblConnectionStatus.style.color = "#A0A0A0";
-    }
-});
-
-function Connection()
-{
-    document.getElementById("ConnectionStatus").innerText = "Connecting to rosbridge...";
-    let wsAddress = document.getElementById("WebSocketAddress").value;
-    // Create a connection to the rosbridge WebSocket server.
-    ros.connect(wsAddress);
-}
-
-function CostructWebSocketUrl()
-{
-	//ws://bbnanone.lan:9090
-	var url = "ws://" + window.location.hostname + ":9090";
-	document.getElementById("WebSocketAddress").value = url;
-	console.log(url);
-}
-        </script>
+		<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+		
+		<script type="text/javascript" src="assets/js/RosWeb.js"></script>
     </head>
 
-    <body onload="CostructWebSocketUrl()">
-        <h1>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot</h1>
+	<body>
+		<div class="row">
+			<div class="columnLateral">
+			</div>
+			<div class="columnCetral">
+				<div style="text-align: center;">
+					<h1>NVIDIA JetBot Web Console ROS based</h1>
+				</div>
+				
+				<div>
+					<label>Connenction to:</label>
+					<input type="text" id="WebSocketAddress" value="" />
+					<input type="button" id="ConnectWebSocket" value="Connect" onclick="StartConnection()" />
+				</div>
+				<div>
+					<label>Current status:</label>
+					<label id="labelConnectionStatus" style="font-weight: bold;">Not connected.</label>
+				</div>
+			</div>
+			<div class="columnLateral">
+			</div>			
+		</div>
+        <script type="text/javascript">
+// Define possible WebSocket url
+var url = "ws://" + window.location.hostname + ":9090";
+document.getElementById("WebSocketAddress").value = url;
+// Instance of RosWeb oject
+var rosWeb = new RosWeb();
+// Show the current Status of connection
+document.getElementById("labelConnectionStatus").innerText = rosWeb.ConnectionStatus.Status;
 
-        <p>For use this page, power on the Robot and run the following commands, each in new terminal. After click on Connect button.</p>
+function waitForConnection(rosWeb, callback)
+{
+	if(rosWeb.ConnectionStatus.Code>0)
+	{
+		callback();
+	}
+	else
+	{
+		setTimeout(function() {
+			waitForConnection(rosWeb, callback);
+		}, 100);
+	}
+}
 
-        <ol>
-            <li><tt>roscore</tt></li>
-            <li><tt>roslaunch jetbot_ros_webconsole jetbot_ros_webconsole.launch</tt></li>
-        </ol>
+function StartConnection()
+{
+	let lblConnectionStatus = document.getElementById("labelConnectionStatus");
+	lblConnectionStatus.innerText = "Connecting to rosbridge...";
+	let wsAddress = document.getElementById("WebSocketAddress").value;
 
-        <div>
-            <label>Connenction to:</label>
-            <input type="text" id="WebSocketAddress" value="" /><!-- try to auto evaluate with window.location.hostname -->
-            <input type="button" id="ConnectWebSocket" value="Connect" onclick="Connection()" />
-            <label>Current status:</label>
-            <label id="ConnectionStatus" style="font-weight: bold;">Not connected.</label>
-        </div>
+	//let result = rosWeb.Connection(wsAddress);
+	rosWeb.Connection(wsAddress);
+
+	waitForConnection(rosWeb, function() 
+	{
+		switch(rosWeb.ConnectionStatus.Code)
+		{
+			case 1:
+				lblConnectionStatus.innerText = "Connected";
+				lblConnectionStatus.style.color = "#00D600";
+				break;
+			case 2:
+				lblConnectionStatus.innerText = "Connection closed.";
+				lblConnectionStatus.style.color = "#A0A0A0";
+				break;
+			case 3:
+				lblConnectionStatus.innerText = "Error in the frontend!";
+				lblConnectionStatus.style.color = "#FF0000";
+				break;
+			case 4:
+				lblConnectionStatus.innerText = "Error in the backend!";
+				lblConnectionStatus.style.color = "#FF0000";
+				break;
+		}
+	});
+}
+		</script>
     </body>
 </html>
