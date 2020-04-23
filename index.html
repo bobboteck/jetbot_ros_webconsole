@@ -37,11 +37,13 @@
 		<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 		
 		<script type="text/javascript" src="assets/js/RosWeb.js"></script>
+		<script type="text/javascript" src="assets/js/JetsonStats.js"></script>
     </head>
 
 	<body>
 		<div class="row">
 			<div class="columnLateral">
+				<jetson-stats title="Jetson Nano Stats WC"></jetson-stats>
 			</div>
 			<div class="columnCetral">
 				<div style="text-align: center;">
@@ -63,7 +65,7 @@
 		</div>
         <script type="text/javascript">
 // Define possible WebSocket url
-var url = "ws://" + window.location.hostname + ":9090";
+let url = "ws://" + window.location.hostname + ":9090";
 document.getElementById("WebSocketAddress").value = url;
 // Instance of RosWeb oject
 var rosWeb = new RosWeb();
@@ -116,6 +118,22 @@ function StartConnection()
 		}
 	});
 }
+
+// Subscribing to a Topic of Diagnostics
+let listenerDiagnostics = new ROSLIB.Topic(
+{
+    ros : rosWeb.Ros,
+    name : '/diagnostics',
+    messageType : 'diagnostic_msgs/DiagnosticArray'
+});
+// Add a callback to be called every time a message is published on this topic.
+listenerDiagnostics.subscribe(function(message)
+{
+	//document.getElementById("USValueCenter").innerText = message.range;
+	//console.log(message);
+	const element = document.querySelector("jetson-stats");
+	element.data = message;
+});
 		</script>
     </body>
 </html>

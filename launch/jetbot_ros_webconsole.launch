@@ -44,4 +44,5 @@
         -->
         <arg name="webpath" value="/" />
     </include>
+	<node pkg="ros_jetson_stats" type="jetson_stats.py" name="ros_jetson_stats"/>
 </launch>

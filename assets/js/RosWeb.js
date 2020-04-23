@@ -43,31 +43,25 @@ var RosWeb = (function()
 	this.Ros = new ROSLIB.Ros();
 
 	// If there is an error on the backend, an 'error' emit will be emitted.
-	this.Ros.on('error', function(error) 
+	this.Ros.on("error", function(error) 
 	{
 		connectionError = true;
 		
-		console.log('--Error');
-
 		self.ConnectionStatus.Status = "Error";
 		self.ConnectionStatus.Message = error;
 		self.ConnectionStatus.Code = STATE.Error;
 	});
 
 	// Find out exactly when we made a connection.
-	this.Ros.on('connection', function() 
+	this.Ros.on("connection", function() 
 	{
-		console.log('--Connected ...');
-
 		self.ConnectionStatus.Status = "Connected";
 		self.ConnectionStatus.Message = "";
 		self.ConnectionStatus.Code = STATE.Connected;
 	});
 
-	this.Ros.on('close', function() 
+	this.Ros.on("close", function() 
 	{
-		console.log('--Connection closed.');
-
 		if(!connectionError)
 		{
 			self.ConnectionStatus.Status = "Closed";
@@ -85,10 +79,9 @@ var RosWeb = (function()
 		}
 		catch(error)
 		{
-			console.log('--Connection error');
 			this.ConnectionStatus.Status = "Error";
 			this.ConnectionStatus.Message = error;
 			this.ConnectionStatus.Code = STATE.ConnectionError;
 		}
-	}
+	};
 });

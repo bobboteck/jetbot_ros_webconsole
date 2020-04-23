@@ -1,7 +1,16 @@
 # Jetbot ROS Web Console
 
-A Web Console for Nvidia Jetbot based on ROS Web Tools.
-If is the first time you use this repo, execute all the following command, otherwise go to the **Run it** capter.
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0176ce34f5e74cdf81bde456098c8b86)](https://www.codacy.com/manual/bobboteck/jetbot_ros_webconsole?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bobboteck/jetbot_ros_webconsole&amp;utm_campaign=Badge_Grade)
+
+## About
+
+**Author: [Roberto D'Amico](http://bobboteck.github.io)**
+
+A **Web Console for Nvidia Jetbot** based on *ROS Web Tools*.
+
+If is the first time you use this repo, execute all the following command, ootherwise check if there are code updates with the git command, in case you download them, and after go to the **Run it** section.
+
+## How to use it
 
 Poweron the Jetbot, and connect to in via SSH, execute the following command to install the ROS dependencies to use this package:
 
@@ -9,7 +18,7 @@ Poweron the Jetbot, and connect to in via SSH, execute the following command to 
 sudo apt-get install ros-melodic-roswww ros-melodic-rosbridge-server
 ```
 
-Go in the Source folder of your workspace and clone this repository:
+Go in the Source folder of your workspace and clone this repository, for rexample:
 
 ```shell
 cd ~/workspace/catkin_ws/src
@@ -35,24 +44,30 @@ And wait for the expected output:
 /home/<USER>/workspace/catkin_ws/src/jetbot_ros_webconsole
 ```
 
+> **Note**: the folders I have indicated are not abbligatory those to be used, if necessary modify the scripts according to the folders of your project
+
 ## Run it
 
-If you Jetbot is just up and running and you are connented in SSH, start ROS with command:
-
-```shell
-roscore
-```
-
-Now open a new terminal and execute this ROS command
+If you Jetbot is just up and running and you are connented in SSH, start the console with command:
 
 ```shell
 roslaunch jetbot_ros_webconsole jetbot_ros_webconsole.launch
 ```
 
-Good, now open your browser at the url:
+Good, now open a browser on a device connected in the same network of the Robot, and go to the url:
 
 ```url
 http://<JETBOT_IP-OR-JETBOT_HOSTNAME>:8080/jetbot_ros_webconsole
 ```
 
 and see that ...
+
+## Feature
+
+List of feature implemented, this list is in continuos evolution:
+
+* Connection and control of it
+
+## Contribute
+
+To report BUG or request new Features, you can use GitHub's [ISSUE](https://github.com/bobboteck/jetbot_ros_webconsole/issues) system related to this project.
