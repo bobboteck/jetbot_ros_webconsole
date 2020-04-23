@@ -18,14 +18,27 @@ Poweron the Jetbot, and connect to in via SSH, execute the following command to 
 sudo apt-get install ros-melodic-roswww ros-melodic-rosbridge-server
 ```
 
-Go in the Source folder of your workspace and clone this repository, for rexample:
+**The latest version of code** need the [Jetson stats](https://github.com/rbonghi/jetson_stats) installed, to install it simply use the command:
+
+```shell
+sudo -H pip install -U jetson-stats
+```
+
+and after clone the report of wrapper in the your source folder
 
 ```shell
 cd ~/workspace/catkin_ws/src
+git clone https://github.com/rbonghi/ros_jetson_stats.git
+```
+
+Now in the Source folder of your workspace and clone this repository, for rexample:
+
+```shell
+cd ~/workspace/catkin_ws/src # Only if you not in this folder
 git clone https://github.com/bobboteck/jetbot_ros_webconsole.git
 ```
 
-Use catkin_make to build the package:
+Go back in the catkin_ws and use catkin_make to build the package:
 
 ```shell
 cd ../           # or alternatively use: cd ~/workspace/catkin_ws
@@ -35,7 +48,7 @@ catkin_make
 Check if the installation process went well, with the command:
 
 ```shell
-rospack find jetbot_ros
+rospack find jetbot_ros_webconsole
 ```
 
 And wait for the expected output:

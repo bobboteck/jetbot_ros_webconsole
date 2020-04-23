@@ -43,7 +43,7 @@
 	<body>
 		<div class="row">
 			<div class="columnLateral">
-				<jetson-stats title="Jetson Nano Stats WC"></jetson-stats>
+				<jetson-stats title="Jetson Nano Stats"></jetson-stats>
 			</div>
 			<div class="columnCetral">
 				<div style="text-align: center;">
@@ -129,8 +129,6 @@ let listenerDiagnostics = new ROSLIB.Topic(
 // Add a callback to be called every time a message is published on this topic.
 listenerDiagnostics.subscribe(function(message)
 {
-	//document.getElementById("USValueCenter").innerText = message.range;
-	//console.log(message);
 	const element = document.querySelector("jetson-stats");
 	element.data = message;
 });

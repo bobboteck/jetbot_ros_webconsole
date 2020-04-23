@@ -22,24 +22,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/*
-var JetsonStats = (function(rosWebObject)
-{
-	// Subscribing to a Topic of Sonar Range Center
-	let listenerDiagnostics = new ROSLIB.Topic(
-	{
-		ros : rosWebObject.Ros,
-		name : '/diagnostics',
-		messageType : 'diagnostic_msgs/DiagnosticArray'
-	});
-	// Add a callback to be called every time a message is published on this topic.
-	listenerDiagnostics.subscribe(function(message)
-	{
-		//document.getElementById("USValueCenter").innerText = message.range;
-		console.log(message);
-	});
-});
-*/
 
 const template = document.createElement('template');
 
@@ -80,25 +62,25 @@ template.innerHTML = `
 	<div class="widget-cpu">
 		<div class="widget-cpu-row">
 			<div class="widget-cpu-percentage">CPU 1 [<label id="cpu1-percentage">-</label>]</div>
-			<div class="widget-cpu-frequency"><label id="cpu1-frequency">150</label> MHz</div>
+			<div class="widget-cpu-frequency"><label id="cpu1-frequency">-</label></div>
 		</div>
 		<div class="widget-cpu-row">
-			<progress id="cpu1-progress" class="cpu-progress" value="32" max="100"></progress>
-		</div>
-	</div>
-	<div class="widget-cpu">
-		<div class="widget-cpu-row">
-			<div class="widget-cpu-percentage">CPU 2 [<label id="cpu2-percentage">25%</label>]</div>
-			<div class="widget-cpu-frequency"><label id="cpu2-frequency">150</label> MHz</div>
-		</div>
-		<div class="widget-cpu-row">
-			<progress id="cpu2-progress" class="cpu-progress" value="25" max="100"></progress>
+			<progress id="cpu1-progress" class="cpu-progress" value="0" max="100"></progress>
 		</div>
 	</div>
 	<div class="widget-cpu">
 		<div class="widget-cpu-row">
-			<div class="widget-cpu-percentage">CPU 3 [<label id="cpu3-percentage">Off</label>]</div>
-			<div class="widget-cpu-frequency"><label id="cpu3-frequency">0</label> MHz</div>
+			<div class="widget-cpu-percentage">CPU 2 [<label id="cpu2-percentage">-</label>]</div>
+			<div class="widget-cpu-frequency"><label id="cpu2-frequency">-</label></div>
+		</div>
+		<div class="widget-cpu-row">
+			<progress id="cpu2-progress" class="cpu-progress" value="0" max="100"></progress>
+		</div>
+	</div>
+	<div class="widget-cpu">
+		<div class="widget-cpu-row">
+			<div class="widget-cpu-percentage">CPU 3 [<label id="cpu3-percentage">-</label>]</div>
+			<div class="widget-cpu-frequency"><label id="cpu3-frequency">-</label></div>
 		</div>
 		<div class="widget-cpu-row">
 			<progress id="cpu3-progress" class="cpu-progress" value="0" max="100"></progress>
@@ -106,8 +88,8 @@ template.innerHTML = `
 	</div>
 	<div class="widget-cpu">
 		<div class="widget-cpu-row">
-			<div class="widget-cpu-percentage">CPU 4 [<label id="cpu4-percentage">Off</label>]</div>
-			<div class="widget-cpu-frequency"><label id="cpu4-frequency">0</label> MHz</div>
+			<div class="widget-cpu-percentage">CPU 4 [<label id="cpu4-percentage">-</label>]</div>
+			<div class="widget-cpu-frequency"><label id="cpu4-frequency">-</label></div>
 		</div>
 		<div class="widget-cpu-row">
 			<progress id="cpu4-progress" class="cpu-progress" value="0" max="100"></progress>
@@ -125,11 +107,29 @@ class JetsonStats extends HTMLElement
 		this._shadowRoot.appendChild(template.content.cloneNode(true));
 
 		this.$title = this._shadowRoot.querySelector('h3');
+		// Stats of CPU 1
 		this.$cpu1_percentage = this._shadowRoot.getElementById("cpu1-percentage");
+		this.$cpu1_progress = this._shadowRoot.getElementById("cpu1-progress");
+		this.$cpu1_frequency = this._shadowRoot.getElementById("cpu1-frequency");
+		// Stats of CPU 2
+		this.$cpu2_percentage = this._shadowRoot.getElementById("cpu2-percentage");
+		this.$cpu2_progress = this._shadowRoot.getElementById("cpu2-progress");
+		this.$cpu2_frequency = this._shadowRoot.getElementById("cpu2-frequency");
+		// Stats of CPU 3
+		this.$cpu3_percentage = this._shadowRoot.getElementById("cpu3-percentage");
+		this.$cpu3_progress = this._shadowRoot.getElementById("cpu3-progress");
+		this.$cpu3_frequency = this._shadowRoot.getElementById("cpu3-frequency");
+		// Stats of CPU 4
+		this.$cpu4_percentage = this._shadowRoot.getElementById("cpu4-percentage");
+		this.$cpu4_progress = this._shadowRoot.getElementById("cpu4-progress");
+		this.$cpu4_frequency = this._shadowRoot.getElementById("cpu4-frequency");
+
+		this.stats_data = null;
 	}
 
 	set data(value)
 	{
+		this.stats_data = value;
 		this.setAttribute('data', value);
 	}
 
@@ -147,9 +147,43 @@ class JetsonStats extends HTMLElement
 	{
 		this.$title.innerHTML = this.title;
 
-		console.log(this.data);
-
-		this.$cpu1_percentage.innerHTML = this.data.status[1].message;
+		if (this.stats_data)
+		{
+			// Stats of CPU 1
+			this.$cpu1_percentage.innerHTML = this.stats_data.status[1].values[1].value;
+			this.$cpu1_progress.value = parseInt(this.stats_data.status[1].values[1].value);
+			this.$cpu1_frequency.innerHTML = this.stats_data.status[1].values[2].value;
+			// Stats of CPU 2
+			this.$cpu2_percentage.innerHTML = this.stats_data.status[2].values[1].value;
+			this.$cpu2_progress.value = parseInt(this.stats_data.status[2].values[1].value);
+			this.$cpu2_frequency.innerHTML = this.stats_data.status[2].values[2].value;
+			// Stats of CPU 3
+			if(this.stats_data.status[3].values[0].value === "ON")
+			{
+				this.$cpu3_percentage.innerHTML = this.stats_data.status[3].values[1].value;
+				this.$cpu3_progress.value = parseInt(this.stats_data.status[3].values[1].value);
+				this.$cpu3_frequency.innerHTML = this.stats_data.status[3].values[2].value;
+			}
+			else
+			{
+				this.$cpu3_percentage.innerHTML = "Off";
+				this.$cpu3_progress.value = 0;
+				this.$cpu3_frequency.innerHTML = "-";
+			}
+			// Stats of CPU 4
+			if(this.stats_data.status[4].values[1].value === "ON")
+			{
+				this.$cpu4_percentage.innerHTML = this.stats_data.status[4].values[1].value;
+				this.$cpu4_progress.value = parseInt(this.stats_data.status[4].values[1].value);
+				this.$cpu4_frequency.innerHTML = this.stats_data.status[4].values[2].value;
+			}
+			else
+			{
+				this.$cpu4_percentage.innerHTML = "off";
+				this.$cpu4_progress.value = 0;
+				this.$cpu4_frequency.innerHTML = "-";
+			}
+		}
 	}
 	
 }
