@@ -158,30 +158,30 @@ class JetsonStats extends HTMLElement
 			this.$cpu2_progress.value = parseInt(this.stats_data.status[2].values[1].value);
 			this.$cpu2_frequency.innerHTML = this.stats_data.status[2].values[2].value;
 			// Stats of CPU 3
-			if(this.stats_data.status[3].values[0].value === "ON")
-			{
-				this.$cpu3_percentage.innerHTML = this.stats_data.status[3].values[1].value;
-				this.$cpu3_progress.value = parseInt(this.stats_data.status[3].values[1].value);
-				this.$cpu3_frequency.innerHTML = this.stats_data.status[3].values[2].value;
-			}
-			else
+			if(this.stats_data.status[3].message === "OFF")
 			{
 				this.$cpu3_percentage.innerHTML = "Off";
 				this.$cpu3_progress.value = 0;
 				this.$cpu3_frequency.innerHTML = "-";
 			}
+			else
+			{
+				this.$cpu3_percentage.innerHTML = this.stats_data.status[3].values[1].value;
+				this.$cpu3_progress.value = parseInt(this.stats_data.status[3].values[1].value);
+				this.$cpu3_frequency.innerHTML = this.stats_data.status[3].values[2].value;
+			}
 			// Stats of CPU 4
-			if(this.stats_data.status[4].values[1].value === "ON")
+			if(this.stats_data.status[4].message === "OFF")
+			{
+				this.$cpu4_percentage.innerHTML = "Off";
+				this.$cpu4_progress.value = 0;
+				this.$cpu4_frequency.innerHTML = "-";
+			}
+			else
 			{
 				this.$cpu4_percentage.innerHTML = this.stats_data.status[4].values[1].value;
 				this.$cpu4_progress.value = parseInt(this.stats_data.status[4].values[1].value);
 				this.$cpu4_frequency.innerHTML = this.stats_data.status[4].values[2].value;
-			}
-			else
-			{
-				this.$cpu4_percentage.innerHTML = "off";
-				this.$cpu4_progress.value = 0;
-				this.$cpu4_frequency.innerHTML = "-";
 			}
 		}
 	}
