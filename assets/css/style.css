@@ -7,6 +7,11 @@ body
 	margin: 0px;
 	padding: 0px;
 	font-family: monospace;
+	color: #1a1a1a;
+}
+.titleAlign
+{
+	text-align: center;
 }
 .row
 {
@@ -19,6 +24,7 @@ body
   float: left;
   width: 15%;
   min-width: 300px;
+  padding: 5px
 }
 .columnCetral
 {
@@ -26,4 +32,28 @@ body
   width: 70%;
   min-width: 300px;
   padding: 5px
+}
+.boxContainer
+{
+	border: 1px solid #76b900;
+	border-radius: 10px;
+	padding: 5px;
+	background-color: #76b900;
+}
+h2.boxTitle, h3.boxTitle
+{
+    margin-top: 0;
+	margin-bottom: 5px;
+	color: #fff;
+}
+.boxDataTop
+{
+	border-radius:5px 5px 0 0;
+	background-color: #fff;
+	padding: 5px;
+}
+.boxData
+{
+	background-color: #fff;
+	padding: 5px;
 }
