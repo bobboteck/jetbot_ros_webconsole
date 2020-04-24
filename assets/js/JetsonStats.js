@@ -29,30 +29,34 @@ template.innerHTML = `
 <style>
 .jetson-stats
 {
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 }
 .jetson-stats h3
 {
 	text-align: center;
 }
-.widget-cpu
+.widget-cpu, .widget-gpu, .widget-ram, .widget-swap, .widget-disk
 {
 	padding: 0 5px 5px 5px;
 }
-.widget-cpu-row
+.widget-cpu-row, .widget-gpu-row, .widget-ram-row, .widget-swap-row, .widget-disk-row
 {
 	width: 100%;
 }
-.widget-cpu-percentage
+.widget-cpu-percentage, .widget-ram-used, .widget-swap-used, .widget-disk-used
 {
 	width: 50%;
 	float: left;
 }
-.widget-cpu-frequency
+.widget-gpu-percentage
+{
+	width: 100%;
+}
+.widget-cpu-frequency, .widget-ram-total, .widget-swap-total, .widget-disk-total
 {
 	text-align: right;
 }
-.cpu-progress
+.cpu-progress, .gpu-progress, .ram-progress, .swap-progress, .disk-progress
 {
 	width: 100%;
 }
@@ -95,6 +99,41 @@ template.innerHTML = `
 			<progress id="cpu4-progress" class="cpu-progress" value="0" max="100"></progress>
 		</div>
 	</div>
+	<div class="widget-gpu">
+		<div class="widget-gpu-row">
+			<div class="widget-gpu-percentage">GPU [<label id="gpu-percentage">-</label>]</div>
+		</div>
+		<div class="widget-gpu-row">
+			<progress id="gpu-progress" class="gpu-progress" value="0" max="100"></progress>
+		</div>
+	</div>
+	<div class="widget-ram">
+		<div class="widget-ram-row">
+			<div class="widget-ram-used">RAM [<label id="ram-used">-</label>]</div>
+			<div class="widget-ram-total"><label id="ram-total">-</label></div>
+		</div>
+		<div class="widget-ram-row">
+			<progress id="ram-progress" class="ram-progress" value="0" max="0"></progress>
+		</div>
+	</div>
+	<div class="widget-swap">
+		<div class="widget-swap-row">
+			<div class="widget-swap-used">SWAP [<label id="swap-used">-</label>]</div>
+			<div class="widget-swap-total"><label id="swap-total">-</label></div>
+		</div>
+		<div class="widget-swap-row">
+			<progress id="swap-progress" class="swap-progress" value="0" max="0"></progress>
+		</div>
+	</div>
+	<div class="widget-disk">
+		<div class="widget-disk-row">
+			<div class="widget-disk-used">DISK [<label id="disk-used">-</label>]</div>
+			<div class="widget-disk-total"><label id="disk-total">-</label></div>
+		</div>
+		<div class="widget-disk-row">
+			<progress id="disk-progress" class="disk-progress" value="0" max="0"></progress>
+		</div>
+	</div>
 </div>
 `;
 
@@ -123,7 +162,22 @@ class JetsonStats extends HTMLElement
 		this.$cpu4_percentage = this._shadowRoot.getElementById("cpu4-percentage");
 		this.$cpu4_progress = this._shadowRoot.getElementById("cpu4-progress");
 		this.$cpu4_frequency = this._shadowRoot.getElementById("cpu4-frequency");
-
+		// Stats of GPU
+		this.$gpu_percentage = this._shadowRoot.getElementById("gpu-percentage");
+		this.$gpu_progress = this._shadowRoot.getElementById("gpu-progress");
+		// Stats of RAM
+		this.$ram_used = this._shadowRoot.getElementById("ram-used");
+		this.$ram_total = this._shadowRoot.getElementById("ram-total");
+		this.$ram_progress = this._shadowRoot.getElementById("ram-progress");
+		// Stats of SWAP
+		this.$swap_used = this._shadowRoot.getElementById("swap-used");
+		this.$swap_total = this._shadowRoot.getElementById("swap-total");
+		this.$swap_progress = this._shadowRoot.getElementById("swap-progress");
+		// Stats of Disk
+		this.$disk_used = this._shadowRoot.getElementById("disk-used");
+		this.$disk_total = this._shadowRoot.getElementById("disk-total");
+		this.$disk_progress = this._shadowRoot.getElementById("disk-progress");
+		// Stats data variable
 		this.stats_data = null;
 	}
 
@@ -183,6 +237,24 @@ class JetsonStats extends HTMLElement
 				this.$cpu4_progress.value = parseInt(this.stats_data.status[4].values[1].value);
 				this.$cpu4_frequency.innerHTML = this.stats_data.status[4].values[2].value;
 			}
+			// Stats of GPU
+			this.$gpu_percentage.innerHTML = this.stats_data.status[5].message;
+			this.$gpu_progress.value = parseInt(this.stats_data.status[5].message);
+			// Stats of RAM
+			this.$ram_used.innerHTML = this.stats_data.status[6].values[0].value;
+			this.$ram_total.innerHTML = this.stats_data.status[6].values[1].value;
+			this.$ram_progress.value = parseFloat(this.stats_data.status[6].values[0].value)*1000;
+			this.$ram_progress.max = parseFloat(this.stats_data.status[6].values[1].value)*1000;
+			// Stats of SWAP
+			this.$swap_used.innerHTML = this.stats_data.status[7].values[0].value;
+			this.$swap_total.innerHTML = this.stats_data.status[7].values[1].value;
+			this.$swap_progress.value = parseFloat(this.stats_data.status[7].values[0].value)*1000;
+			this.$swap_progress.max = parseFloat(this.stats_data.status[7].values[1].value)*1000;
+			// Stats of Disk
+			this.$disk_used.innerHTML = this.stats_data.status[13].values[0].value;
+			this.$disk_total.innerHTML = this.stats_data.status[13].values[1].value;
+			this.$disk_progress.value = parseFloat(this.stats_data.status[13].values[0].value)*1000;
+			this.$disk_progress.max = parseFloat(this.stats_data.status[13].values[1].value)*1000;
 		}
 	}
 	

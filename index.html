@@ -46,18 +46,20 @@
 				<jetson-stats title="Jetson Nano Stats"></jetson-stats>
 			</div>
 			<div class="columnCetral">
-				<div style="text-align: center;">
-					<h1>NVIDIA JetBot Web Console ROS based</h1>
-				</div>
-				
-				<div>
-					<label>Connenction to:</label>
-					<input type="text" id="WebSocketAddress" value="" />
-					<input type="button" id="ConnectWebSocket" value="Connect" onclick="StartConnection()" />
-				</div>
-				<div>
-					<label>Current status:</label>
-					<label id="labelConnectionStatus" style="font-weight: bold;">Not connected.</label>
+				<div style="border: 1px solid #76b900; border-radius: 10px; padding: 5px;">
+					<div style="text-align: center;">
+						<h1>NVIDIA JetBot Web Console ROS based</h1>
+					</div>
+					
+					<div>
+						<label>Connenction to:</label>
+						<input type="text" id="WebSocketAddress" value="" />
+						<input type="button" id="ConnectWebSocket" value="Connect" onclick="StartConnection()" />
+					</div>
+					<div>
+						<label>Current status:</label>
+						<label id="labelConnectionStatus" style="font-weight: bold;">Not connected.</label>
+					</div>
 				</div>
 			</div>
 			<div class="columnLateral">

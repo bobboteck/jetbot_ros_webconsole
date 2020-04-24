@@ -80,6 +80,7 @@ and see that ...
 List of feature implemented, this list is in continuos evolution:
 
 * Connection and control of it
+* CPU information
 
 ## Contribute
 

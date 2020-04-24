@@ -25,38 +25,5 @@ body
   float: left;
   width: 70%;
   min-width: 300px;
+  padding: 5px
 }
-
-
-/*
-.jetson-stats
-{
-	border: 1px solid black;
-}
-.jetson-stats h3
-{
-	text-align: center;
-}
-.widget-cpu
-{
-	width: 100%;
-	padding: 0 5px 5px 5px;
-}
-.widget-cpu-row
-{
-	width: 100%;
-}
-.widget-cpu-percentage
-{
-	width: 50%;
-	float: left;
-}
-.widget-cpu-frequency
-{
-	text-align: right;
-}
-.cpu-progress
-{
-	width: 100%;
-}
-*/
