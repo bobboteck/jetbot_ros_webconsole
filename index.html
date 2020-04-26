@@ -196,20 +196,20 @@ setInterval(function()
 	switch(direction)
 	{
 		case "N":
-			cmdVel.publish("forward");
+			cmdVel.publish({data: "forward"});
 			break;
 		case "S":
-			cmdVel.publish("backward");
+			cmdVel.publish({data: "backward"});
 			break;
 		case "W":
-			cmdVel.publish("left");
+			cmdVel.publish({data: "left"});
 			break;
 		case "E":
-			cmdVel.publish("right");
+			cmdVel.publish({data: "right"});
 			break;
 		case "C":
 		default:
-			cmdVel.publish("stop");
+			cmdVel.publish({data: "stop"});
 			break;
 	}
 }, 50);
