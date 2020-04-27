@@ -24,17 +24,19 @@
  SOFTWARE.
 -->
 <package format="2">
-  <name>jetbot_ros_webconsole</name>
-  <version>1.0.0</version>
-  <description>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot.</description>
-  <author>Roberto D'Amico</author>
-  <maintainer email="roberto.damico@officinerobotiche.it">Roberto D'Amico</maintainer>
-  <license>MIT</license>
-  <url>https://github.com/bobboteck/jetbot_ros_webconsole</url>
+	<name>jetbot_ros_webconsole</name>
+	<version>1.0.0</version>
+	<description>jetbot_ros_webconsole a ROS Web Console to remotely control your Jetbot.</description>
+	<author>Roberto D'Amico</author>
+	<maintainer email="roberto.damico@officinerobotiche.it">Roberto D'Amico</maintainer>
+	<license>MIT</license>
+	<url>https://github.com/bobboteck/jetbot_ros_webconsole</url>
   
-  <buildtool_depend>catkin</buildtool_depend>
-  <depend>roslaunch</depend>
-  <exec_depend>roswww</exec_depend>
-  <exec_depend>rosbridge_server</exec_depend>
+	<buildtool_depend>catkin</buildtool_depend>
+	<depend>roslaunch</depend>
+	<exec_depend>roswww</exec_depend>
+	<exec_depend>rosbridge_server</exec_depend>
 
+	<exec_depend>ros_jetson_stats</exec_depend>
+	<exec_depend>jetbot_ros</exec_depend>
 </package>

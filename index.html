@@ -196,20 +196,40 @@ setInterval(function()
 	switch(direction)
 	{
 		case "N":
-			cmdVel.publish({data: "forward"});
+			if(currentDirection!="N")
+			{
+				cmdVel.publish({data: "backward"});
+				currentDirection="N";
+			}
 			break;
 		case "S":
-			cmdVel.publish({data: "backward"});
+			if(currentDirection!="S")
+			{
+				cmdVel.publish({data: "forward"});
+				currentDirection="S";
+			}
 			break;
 		case "W":
-			cmdVel.publish({data: "left"});
+			if(currentDirection!="W")
+			{
+				cmdVel.publish({data: "left"});
+				currentDirection="W";
+			}
 			break;
 		case "E":
-			cmdVel.publish({data: "right"});
+			if(currentDirection!="E")
+			{
+				cmdVel.publish({data: "right"});
+				currentDirection="E";
+			}
 			break;
 		case "C":
 		default:
-			cmdVel.publish({data: "stop"});
+			if(currentDirection!="C")
+			{
+				cmdVel.publish({data: "stop"});
+				currentDirection="C";
+			}
 			break;
 	}
 }, 50);

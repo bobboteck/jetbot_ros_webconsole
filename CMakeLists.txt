@@ -27,9 +27,11 @@ project(jetbot_ros_webconsole)
 find_package(catkin REQUIRED COMPONENTS roslaunch)
 
 catkin_package(
-  CATKIN_DEPENDS
-    roswww
-    rosbridge_server
+	CATKIN_DEPENDS
+		roswww
+		rosbridge_server
+		ros_jetson_stats
+		jetbot_ros
 )
 
 roslaunch_add_file_check(launch)
