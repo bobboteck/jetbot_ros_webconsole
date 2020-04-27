@@ -1,7 +1,5 @@
 # Jetbot ROS Web Console
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0176ce34f5e74cdf81bde456098c8b86)](https://www.codacy.com/manual/bobboteck/jetbot_ros_webconsole?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bobboteck/jetbot_ros_webconsole&amp;utm_campaign=Badge_Grade)
-
 ## About
 
 **Author: [Roberto D'Amico](http://bobboteck.github.io)**
