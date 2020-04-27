@@ -1,6 +1,6 @@
 # Jetbot ROS Web Console
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0176ce34f5e74cdf81bde456098c8b86)](https://www.codacy.com/manual/bobboteck/jetbot_ros_webconsole?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bobboteck/jetbot_ros_webconsole&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/7f0b1a9e9cce4032a92a886f98df28c9)](https://app.codacy.com/manual/bobboteck/jetbot_ros_webconsole?utm_source=github.com&utm_medium=referral&utm_content=bobboteck/jetbot_ros_webconsole&utm_campaign=Badge_Grade_Settings)
 
 ## About
 
