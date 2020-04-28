@@ -62,8 +62,8 @@ template.innerHTML = `
 }
 </style>
 <div class="jetson-stats">
-	<h3>-</h3>
-	<div class="widget-cpu">
+	<!-- <h3>-</h3> -->
+	<div id="cpu1-widget" class="widget-cpu">
 		<div class="widget-cpu-row">
 			<div class="widget-cpu-percentage">CPU 1 [<label id="cpu1-percentage">-</label>]</div>
 			<div class="widget-cpu-frequency"><label id="cpu1-frequency">-</label></div>
@@ -72,7 +72,7 @@ template.innerHTML = `
 			<progress id="cpu1-progress" class="cpu-progress" value="0" max="100"></progress>
 		</div>
 	</div>
-	<div class="widget-cpu">
+	<div id="cpu2-widget2" class="widget-cpu">
 		<div class="widget-cpu-row">
 			<div class="widget-cpu-percentage">CPU 2 [<label id="cpu2-percentage">-</label>]</div>
 			<div class="widget-cpu-frequency"><label id="cpu2-frequency">-</label></div>
@@ -81,7 +81,7 @@ template.innerHTML = `
 			<progress id="cpu2-progress" class="cpu-progress" value="0" max="100"></progress>
 		</div>
 	</div>
-	<div class="widget-cpu">
+	<div id="cpu3-widget" class="widget-cpu">
 		<div class="widget-cpu-row">
 			<div class="widget-cpu-percentage">CPU 3 [<label id="cpu3-percentage">-</label>]</div>
 			<div class="widget-cpu-frequency"><label id="cpu3-frequency">-</label></div>
@@ -90,7 +90,7 @@ template.innerHTML = `
 			<progress id="cpu3-progress" class="cpu-progress" value="0" max="100"></progress>
 		</div>
 	</div>
-	<div class="widget-cpu">
+	<div id="cpu4-widget" class="widget-cpu">
 		<div class="widget-cpu-row">
 			<div class="widget-cpu-percentage">CPU 4 [<label id="cpu4-percentage">-</label>]</div>
 			<div class="widget-cpu-frequency"><label id="cpu4-frequency">-</label></div>
@@ -145,7 +145,7 @@ class JetsonStats extends HTMLElement
 		this._shadowRoot = this.attachShadow({ mode: 'open' });
 		this._shadowRoot.appendChild(template.content.cloneNode(true));
 
-		this.$title = this._shadowRoot.querySelector('h3');
+		//this.$title = this._shadowRoot.querySelector('h3');
 		// Stats of CPU 1
 		this.$cpu1_percentage = this._shadowRoot.getElementById("cpu1-percentage");
 		this.$cpu1_progress = this._shadowRoot.getElementById("cpu1-progress");
@@ -158,10 +158,12 @@ class JetsonStats extends HTMLElement
 		this.$cpu3_percentage = this._shadowRoot.getElementById("cpu3-percentage");
 		this.$cpu3_progress = this._shadowRoot.getElementById("cpu3-progress");
 		this.$cpu3_frequency = this._shadowRoot.getElementById("cpu3-frequency");
+		this.$cpu3_widget = this._shadowRoot.getElementById("cpu3-widget");
 		// Stats of CPU 4
 		this.$cpu4_percentage = this._shadowRoot.getElementById("cpu4-percentage");
 		this.$cpu4_progress = this._shadowRoot.getElementById("cpu4-progress");
 		this.$cpu4_frequency = this._shadowRoot.getElementById("cpu4-frequency");
+		this.$cpu4_widget = this._shadowRoot.getElementById("cpu4-widget");
 		// Stats of GPU
 		this.$gpu_percentage = this._shadowRoot.getElementById("gpu-percentage");
 		this.$gpu_progress = this._shadowRoot.getElementById("gpu-progress");
@@ -189,7 +191,7 @@ class JetsonStats extends HTMLElement
 
 	static get observedAttributes()
 	{
-		return ['title', 'data'];
+		return ['showOffCpu', 'data'];
 	}
 
 	attributeChangedCallback(name, oldVal, newVal)
@@ -199,7 +201,7 @@ class JetsonStats extends HTMLElement
 
 	render()
 	{
-		this.$title.innerHTML = this.title;
+		//this.$title.innerHTML = this.title;
 
 		if (this.stats_data)
 		{
@@ -211,12 +213,21 @@ class JetsonStats extends HTMLElement
 			this.$cpu2_percentage.innerHTML = this.stats_data.status[2].values[1].value;
 			this.$cpu2_progress.value = parseInt(this.stats_data.status[2].values[1].value);
 			this.$cpu2_frequency.innerHTML = this.stats_data.status[2].values[2].value;
+			
 			// Stats of CPU 3
 			if(this.stats_data.status[3].message === "OFF")
 			{
-				this.$cpu3_percentage.innerHTML = "Off";
-				this.$cpu3_progress.value = 0;
-				this.$cpu3_frequency.innerHTML = "-";
+				// Check if need to show powered off CPU
+				if(this.showOffCpu)
+				{
+					this.$cpu3_percentage.innerHTML = "Off";
+					this.$cpu3_progress.value = 0;
+					this.$cpu3_frequency.innerHTML = "-";
+				}
+				else
+				{
+					this.$cpu3_widget.setAttribute("display", "none");
+				}
 			}
 			else
 			{
@@ -227,9 +238,17 @@ class JetsonStats extends HTMLElement
 			// Stats of CPU 4
 			if(this.stats_data.status[4].message === "OFF")
 			{
-				this.$cpu4_percentage.innerHTML = "Off";
-				this.$cpu4_progress.value = 0;
-				this.$cpu4_frequency.innerHTML = "-";
+				// Check if need to show powered off CPU
+				if(this.showOffCpu)
+				{
+					this.$cpu4_percentage.innerHTML = "Off";
+					this.$cpu4_progress.value = 0;
+					this.$cpu4_frequency.innerHTML = "-";
+				}
+				else
+				{
+					this.$cpu4_widget.setAttribute("display", "none");
+				}
 			}
 			else
 			{
@@ -237,6 +256,7 @@ class JetsonStats extends HTMLElement
 				this.$cpu4_progress.value = parseInt(this.stats_data.status[4].values[1].value);
 				this.$cpu4_frequency.innerHTML = this.stats_data.status[4].values[2].value;
 			}
+
 			// Stats of GPU
 			this.$gpu_percentage.innerHTML = this.stats_data.status[5].message;
 			this.$gpu_progress.value = parseInt(this.stats_data.status[5].message);

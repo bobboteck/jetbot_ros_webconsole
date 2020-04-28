@@ -1,0 +1,20 @@
+{
+	"name": "jetbot_ros_webconsole",
+	"version": "0.1.0",
+	"description": "A Web Console for NVIDIA JetBot powered by ROS",
+	"license": "MIT",
+	"author":
+	{
+		"name": "Roberto D'Amico",
+		"email": "roberto.damico@officinerobotiche.it",
+		"url": "https://bobboteck.github.io/"
+	},
+	"main": "index.html",
+	"private": true,
+	"repository": "https://github.com/bobboteck/jetbot_ros_webconsole",
+	"bugs": "https://github.com/bobboteck/jetbot_ros_webconsole/issues",
+	"dependencies": 
+	{
+		"@bobboteck/JoyStick": "1.1.5"
+	}
+}

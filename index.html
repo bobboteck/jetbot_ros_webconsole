@@ -44,7 +44,14 @@
 	<body>
 		<div class="row">
 			<div class="columnLateral">
-				<jetson-stats title="Jetson Nano Stats"></jetson-stats>
+				<div class="boxContainer">
+					<div class="titleAlign">
+						<h3 class="boxTitle">Jetson Nano Stats</h3>
+					</div>
+					<div class="boxDataTop">
+						<jetson-stats showOffCpu="false"></jetson-stats>
+					</div>
+				</div>
 			</div>
 			<div class="columnCetral">
 				<div class="boxContainer">
@@ -66,14 +73,14 @@
 				<div class="boxContainer">
 					<div class="titleAlign">
 						<h3 class="boxTitle">Move control</h3>
-						<div class="boxDataTop">
-							<div id="joyDiv" style="width:200px;height:200px;margin:50px"></div>
-							Posizione X:<input id="joy1PosizioneX" type="text" /><br />
-							Posizione Y:<input id="joy1PosizioneY" type="text" /><br />
-							Direzione:<input id="joy1Direzione" type="text" /><br />
-							X :<input id="joy1X" type="text" /></br>
-							Y :<input id="joy1Y" type="text" />
-						</div>
+					</div>
+					<div class="boxDataTop">
+						<div id="joyDiv" style="width:200px;height:200px;margin:auto;"></div>
+						Posizione X:<input id="joy1PosizioneX" type="text" size="10" /><br />
+						Posizione Y:<input id="joy1PosizioneY" type="text" size="10" /><br />
+						Direzione:<input id="joy1Direzione" type="text" size="10" /><br />
+						X :<input id="joy1X" type="text" size="10" /></br>
+						Y :<input id="joy1Y" type="text" size="10" />
 					</div>
 				</div>
 			</div>			
@@ -86,6 +93,31 @@ document.getElementById("WebSocketAddress").value = url;
 var rosWeb = new RosWeb();
 // Show the current Status of connection
 document.getElementById("labelConnectionStatus").innerText = rosWeb.ConnectionStatus.Status;
+
+let currentDirection = "C";
+
+// Subscribing to Diagnostics Topic
+let listenerDiagnostics = new ROSLIB.Topic(
+{
+    ros : rosWeb.Ros,
+    name : '/diagnostics',
+    messageType : 'diagnostic_msgs/DiagnosticArray'
+});
+// Add a callback to be called every time a message is published on this topic.
+listenerDiagnostics.subscribe(function(message)
+{
+	const element = document.querySelector("jetson-stats");
+	element.data = message;
+});
+
+// Publishing a Topic
+let cmdVel = new ROSLIB.Topic(
+{
+	ros : rosWeb.Ros,
+	name : "/jetbot_motors/cmd_str",
+	messageType : "std_msgs/String"
+});
+
 
 function waitForConnection(rosWeb, callback)
 {
@@ -134,48 +166,7 @@ function StartConnection()
 	});
 }
 
-// Subscribing to Diagnostics Topic
-let listenerDiagnostics = new ROSLIB.Topic(
-{
-    ros : rosWeb.Ros,
-    name : '/diagnostics',
-    messageType : 'diagnostic_msgs/DiagnosticArray'
-});
-// Add a callback to be called every time a message is published on this topic.
-listenerDiagnostics.subscribe(function(message)
-{
-	const element = document.querySelector("jetson-stats");
-	element.data = message;
-});
 
-
-
-
-// Publishing a Topic
-let cmdVel = new ROSLIB.Topic(
-{
-	ros : rosWeb.Ros,
-	name : "/jetbot_motors/cmd_str",
-	messageType : "std_msgs/String"
-});
-
-let twist = new ROSLIB.Message(
-{
-	linear :
-	{
-		x : 0.1,
-		y : 0.2,
-		z : 0.3
-	},
-	angular : 
-	{
-		x : -0.1,
-		y : -0.2,
-		z : -0.3
-	}
-});
-
-//cmdVel.publish(twist);
 
 
 var Joy = new JoyStick('joyDiv');
