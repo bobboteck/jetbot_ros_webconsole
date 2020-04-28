@@ -15,6 +15,6 @@
 	"bugs": "https://github.com/bobboteck/jetbot_ros_webconsole/issues",
 	"dependencies": 
 	{
-		"JoyStick": "bobboteck/JoyStick#master"
+		"JoyStick": "https://github.com/bobboteck/JoyStick.git#master"
 	}
 }
