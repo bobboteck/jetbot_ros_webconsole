@@ -24,13 +24,13 @@
 -->
 <launch>
 	<!-- Port used for the websocket -->
-	<arg name="websocket_port" default="9090"/>
+	<arg name="websocket_port" default="9090" />
 	<!-- Port used for the webserver -->
-	<arg name="packages_port" default="8080"/>
+	<arg name="packages_port" default="8080" />
 
 	<!-- ROSbridge server -->
 	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
-		<arg name="port" value="$(arg websocket_port)"/>
+		<arg name="port" value="$(arg websocket_port)" />
 	</include>
 	<!-- ROSWWW server -->
 	<!-- When the server start the webpage will be available in:
@@ -45,6 +45,6 @@
 		<arg name="webpath" value="/" />
 	</include>
 
-	<node pkg="ros_jetson_stats" type="jetson_stats.py" name="ros_jetson_stats"/>
-	<node pkg="jetbot_ros" type="jetbot_motors.py" name="jetbot_ros"/>
+	<node pkg="ros_jetson_stats" type="jetson_stats.py" name="ros_jetson_stats" />
+	<node pkg="jetbot_ros" type="jetbot_motors.py" name="jetbot_motors" output="screen" />
 </launch>
