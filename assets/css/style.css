@@ -17,7 +17,7 @@ body
 {
 	/*width: 100%;*/
 	display: inline-flex;
-	/*clear: both;*/
+	clear: both;
 }
 .columnLateral
 {
@@ -30,7 +30,7 @@ body
 {
   float: left;
   width: 70%;
-  min-width: 300px;
+  min-width: 400px;
   padding: 5px
 }
 .boxContainer

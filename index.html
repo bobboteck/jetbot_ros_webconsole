@@ -139,7 +139,6 @@ function StartConnection()
 	lblConnectionStatus.innerText = "Connecting to rosbridge...";
 	let wsAddress = document.getElementById("WebSocketAddress").value;
 
-	//let result = rosWeb.Connection(wsAddress);
 	rosWeb.Connection(wsAddress);
 
 	waitForConnection(rosWeb, function() 
@@ -189,14 +188,14 @@ setInterval(function()
 		case "N":
 			if(currentDirection!="N")
 			{
-				cmdVel.publish({data: "backward"});
+				cmdVel.publish({data: "forward"});
 				currentDirection="N";
 			}
 			break;
 		case "S":
 			if(currentDirection!="S")
 			{
-				cmdVel.publish({data: "forward"});
+				cmdVel.publish({data: "backward"});
 				currentDirection="S";
 			}
 			break;
