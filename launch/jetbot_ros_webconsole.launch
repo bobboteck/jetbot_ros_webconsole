@@ -47,4 +47,5 @@
 
 	<node pkg="ros_jetson_stats" type="jetson_stats.py" name="ros_jetson_stats" />
 	<node pkg="jetbot_ros" type="jetbot_motors.py" name="jetbot_motors" output="screen" />
+	<node pkg="jetbot_ros" type="jetbot_oled.py" name="jetbot_oled" />
 </launch>

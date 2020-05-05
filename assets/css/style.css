@@ -40,6 +40,10 @@ body
 	padding: 5px;
 	background-color: #76b900;
 }
+.boxContainerTopMargin
+{
+	margin-top: 5px;
+}
 h2.boxTitle, h3.boxTitle
 {
     margin-top: 0;

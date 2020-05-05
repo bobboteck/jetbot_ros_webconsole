@@ -83,6 +83,15 @@
 						Y :<input id="joy1Y" type="text" size="10" />
 					</div>
 				</div>
+				<div class="boxContainer boxContainerTopMargin">
+					<div class="titleAlign">
+						<h3 class="boxTitle">Message on display</h3>
+					</div>
+					<div class="boxDataTop">
+						<input type="text" id="forDisplayMessage" value="" />
+						<input type="button" id="sendMessage" value="Send" onclick="sendDisplayMessage()" />
+					</div>
+				</div>
 			</div>			
 		</div>
 		<script type="text/javascript">
@@ -118,6 +127,13 @@ let cmdVel = new ROSLIB.Topic(
 	messageType : "std_msgs/String"
 });
 
+let displayMessage = new ROSLIB.Topic(
+	{
+		ros: rosWeb.ros,
+		name: "/jetbot_oled/user_text",
+		messageType: "std_msgs/String"
+	}
+);
 
 function waitForConnection(rosWeb, callback)
 {
@@ -225,6 +241,13 @@ setInterval(function()
 }, 50);
 setInterval(function(){ joy1X.value=Joy.GetX(); }, 50);
 setInterval(function(){ joy1Y.value=Joy.GetY(); }, 50);
+
+
+function sendDisplayMessage()
+{
+	let messageElement = document.getElementById("forDisplayMessage");
+	displayMessage.publish({data: messageElement.value});
+}
 		</script>
     </body>
 </html>
