@@ -129,7 +129,7 @@ let cmdVel = new ROSLIB.Topic(
 
 let displayMessage = new ROSLIB.Topic(
 	{
-		ros: rosWeb.ros,
+		ros: rosWeb.Ros,
 		name: "/jetbot_oled/user_text",
 		messageType: "std_msgs/String"
 	}
