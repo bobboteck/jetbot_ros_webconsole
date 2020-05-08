@@ -15,6 +15,7 @@
 	"bugs": "https://github.com/bobboteck/jetbot_ros_webconsole/issues",
 	"dependencies": 
 	{
-		"https://github.com/bobboteck/JoyStick": "1.1.5"
+		"https://github.com/bobboteck/JoyStick": "1.1.5",
+		"@bobboteck/ros-jetson-stats-webcomponent": "1.0.0"
 	}
 }
