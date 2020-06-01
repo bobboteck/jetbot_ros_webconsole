@@ -10,6 +10,8 @@ A **Web Console for Nvidia Jetbot** based on *ROS Web Tools*.
 
 If is the first time you use this repo, execute all the following command, ootherwise check if there are code updates with the git command, in case you download them, and after go to the **Run it** section.
 
+[![Click to play the video on YouTube](https://img.youtube.com/vi/0_5hYdE9iAA/0.jpg)](https://www.youtube.com/watch?v=0_5hYdE9iAA)
+
 ## How to use it
 
 Poweron the Jetbot, and connect to in via SSH, execute the following command to install the ROS dependencies to use this package:
@@ -87,3 +89,5 @@ List of feature implemented, this list is in continuos evolution:
 ## Contribute
 
 To report BUG or request new Features, you can use GitHub's [ISSUE](https://github.com/bobboteck/jetbot_ros_webconsole/issues) system related to this project.
+
+https://youtu.be/0_5hYdE9iAA
